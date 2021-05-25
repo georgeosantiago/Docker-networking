@@ -1,0 +1,20 @@
+version: "3.9"  
+
+services:
+    srvbridge: 
+        #image: georgeosantiago/whoami
+        image: nginx
+        hostname: srvbridge
+        domainname: srvbridge
+        container_name: srvbridge
+#        user: "root"
+#        cap_add:
+#            - NET_ADMIN        
+        ports:
+          - "8081:80"
+          
+        network_mode: bridge
+
+        
+        
+      

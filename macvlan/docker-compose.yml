@@ -1,0 +1,47 @@
+version: "3.9"  
+
+services:
+    srvbridge: 
+        #image: containous/whoami
+        image: nginx
+        hostname: srvbridge
+        domainname: srvbridge
+        container_name: srvbridge
+#        user: "root"
+#        cap_add:
+#            - NET_ADMIN        
+#        ports:
+#          - "8081:80"
+        networks:
+            default: # puedo acceder desde 172.18.0.2
+            net:
+                ipv4_address: 192.168.0.97          
+                #ipv4_address: 192.168.1.97          
+
+# macvlan L3
+# ipvlan L2
+
+networks:
+
+# modo puente
+  net:
+    driver: macvlan
+    driver_opts:
+      parent: ens33 
+    ipam:
+      config:
+        - subnet: "192.168.0.0/24"
+          #ip_range: "192.168.0.0/24"
+          gateway: "192.168.0.1"
+          
+# modo 802.1q - no me anda
+  # net:
+    # driver: macvlan
+    # driver_opts:
+      # parent: ens33.50
+    # ipam:
+      # config:
+        # - subnet: "192.168.1.0/24"
+          # #ip_range: "192.168.0.0/24"
+          # gateway: "192.168.1.1"
+  

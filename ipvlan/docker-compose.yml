@@ -1,0 +1,45 @@
+version: "3.9"  
+
+services:
+    srvprueba: 
+        #image: containous/whoami
+        image: nginx
+        hostname: srvprueba
+        domainname: srvprueba
+        container_name: srvprueba
+#        user: "root"
+#        cap_add:
+#            - NET_ADMIN        
+#        ports:
+#          - "8081:80"
+        networks:
+            default:
+            net:
+                ipv4_address: 192.168.0.97          
+
+# macvlan L3
+# ipvlan L2
+
+networks:
+
+# modo puente
+  net:
+    driver: ipvlan 
+    driver_opts:
+      ipvlan_mode: l2
+      parent: ens33 
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/24"
+          ip_range: "192.168.0.0/24"
+          gateway: "192.168.0.1"
+          aux_addresses:
+            nginx: "192.168.0.2"
+          
+  default:
+    driver: bridge
+
+#  default:
+#    external: true
+#    name: "otrared"
